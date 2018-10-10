@@ -1,7 +1,7 @@
 SQLite bindings for the Dart VM
 ============================================
 
-[![Build status](https://travis-ci.org/l7ssha/dart-sqlite.svg?branch=master)](https://travis-ci.org/l7ssha/dart-sqlite)
+[![Build status](https://travis-ci.org/l7ssha/dart-sqlite2.svg?branch=master)](https://travis-ci.org/l7ssha/dart-sqlite2)
 
 
 ## Installation

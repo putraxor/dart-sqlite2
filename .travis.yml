@@ -14,9 +14,11 @@ branches:
 script:
   - "./travis.sh"
 deploy:
-  provider: releases
-  api_key:
-    secure: WEV/BtkYS1RuRPIWjlwJu3fMZ0ozu+elZwoqKyI4UEx3p6a7W+NKJQ16q6u0UigzOjksJh6H5A5HITfLVl9v14a9Ir4qFEMU/9tXLEMDJfldp9M41fzFhlO1rFnQMGEXmm/mths7oCzgZO1WkKbx+XBrhSQBAw0WmSFWaBgcui/BgcbKjtl5za483l2s/MrfRGUOeJ3VhH4/C+KnWm3P2Kpg2cMzDkSFpKn1t0y/2w7syHc2fSFLPyRyXsb16tmcFL2QIHYIBVFKLVlP9FMIUS1C98mk/eabkfBmjmGoyn1wjEpL8h7RaJkx/x48T1BeBtH3vEYUGvhbO1vNureo5+O1l4ZjMuZq36CTwTknCUuf0Ab1Bpy1ndunXmO2HWOCVnDAZ75739QmxJEihS9ZIKB2wR+wfH9WjIPd8Y9+Jnkanm/nFInEDzrSAO/mArP3H1J+pQZ7fTXoD9f8ye+i5h/wjSLGYCgJwIlLmEM6qrgVKa4lZuXu8l8OaiC8co07kX7hLNamNrc/ptuiSnPi1fqGzDIf0JPrHJxYaGPhFWuGO/osZm03WSsZDacKzagHgkVKZXl0YKKunQB7croAIzQoilO8y/YTTRHFuPo9+XdlDAh3Q4FAe9MUOtIeTlIimYwvJupTb7Apj0mZfsF5eCg3wG5McMR4Xo8W1u9lDMQ=
-  file: "$DEPLOY_FILE"
-  on:
-    repo: l7ssha/dart-sqlite2
+  - provider: releases
+    api_key:
+      secure: WEV/BtkYS1RuRPIWjlwJu3fMZ0ozu+elZwoqKyI4UEx3p6a7W+NKJQ16q6u0UigzOjksJh6H5A5HITfLVl9v14a9Ir4qFEMU/9tXLEMDJfldp9M41fzFhlO1rFnQMGEXmm/mths7oCzgZO1WkKbx+XBrhSQBAw0WmSFWaBgcui/BgcbKjtl5za483l2s/MrfRGUOeJ3VhH4/C+KnWm3P2Kpg2cMzDkSFpKn1t0y/2w7syHc2fSFLPyRyXsb16tmcFL2QIHYIBVFKLVlP9FMIUS1C98mk/eabkfBmjmGoyn1wjEpL8h7RaJkx/x48T1BeBtH3vEYUGvhbO1vNureo5+O1l4ZjMuZq36CTwTknCUuf0Ab1Bpy1ndunXmO2HWOCVnDAZ75739QmxJEihS9ZIKB2wR+wfH9WjIPd8Y9+Jnkanm/nFInEDzrSAO/mArP3H1J+pQZ7fTXoD9f8ye+i5h/wjSLGYCgJwIlLmEM6qrgVKa4lZuXu8l8OaiC8co07kX7hLNamNrc/ptuiSnPi1fqGzDIf0JPrHJxYaGPhFWuGO/osZm03WSsZDacKzagHgkVKZXl0YKKunQB7croAIzQoilO8y/YTTRHFuPo9+XdlDAh3Q4FAe9MUOtIeTlIimYwvJupTb7Apj0mZfsF5eCg3wG5McMR4Xo8W1u9lDMQ=
+    file: "$DEPLOY_FILE"
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: l7ssha/dart-sqlite2
