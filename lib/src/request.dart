@@ -71,10 +71,11 @@ class Request {
         controller.close();
         return false;
       }
+
       final List result = rawResult;
       if (rowMetadata == null) {
         rowMetadata =
-            new RowMetadata(natives.getColumnInfo(_statement).cast<String>());
+            new RowMetadata(natives.getColumnInfo(_statement));
       }
       controller.add(new RowImpl(index++, rowMetadata, result));
       return true;
@@ -110,6 +111,7 @@ class Request {
     }
     controller = new StreamController(
         onListen: start, onPause: stop, onResume: start, onCancel: finalize);
+
     return controller.stream;
   }
 

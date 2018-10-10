@@ -54,7 +54,14 @@ class Database {
   Future<int> transaction(Future operation()) {
     _ensureOpen();
     return execute('BEGIN')
-        .then((_) => operation())
+        .then((_) {
+          try {
+            operation();
+          } catch (error, stackTrace) {
+            return execute('ROLLBACK')
+                .then((_) => new Future.error(error, stackTrace));
+          }
+        })
         .then((_) => execute('COMMIT'))
         .catchError((error, stackTrace) {
       return execute('ROLLBACK')

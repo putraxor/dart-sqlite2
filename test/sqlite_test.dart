@@ -52,9 +52,10 @@ void main() {
     expect(row.toMap(), equals(const {'foo': 42}));
   }));
 
+
   test('query multiple', _testRunner((db) async {
     await _createBlogTable(db);
-    Future insert(List bindings) async {
+    Future insert(List<String> bindings) async {
       int inserted = await db.execute(
           'INSERT INTO posts (title, body) VALUES (?,?)',
           params: bindings);
@@ -78,12 +79,6 @@ void main() {
     expect(await db.query('SELECT * FROM posts').length, equals(1));
   }));
 
-  test('transaction failure', _testRunner((db) async {
-    return db
-        .transaction(() => throw 'oh noes!')
-        .catchError(expectAsync((_) {}));
-  }));
-
   test('syntax error', _testRunner((db) async {
     expect(() => db.execute('random non sql'),
         new Throws(new isInstanceOf<sqlite.SqliteSyntaxException>()));
@@ -103,6 +98,6 @@ void main() {
     final rows = await db.query('SELECT * FROM posts').toList();
     expect(rows.length, equals(1));
     expect(rows[0]['title'], equals('hello'));
-    expect(rows[0]['body'], equals('world'));
+    expect(rows[0]['body'], equals('world'));;
   }));
 }

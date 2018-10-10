@@ -128,13 +128,16 @@ DART_FUNCTION(PrepareStatement) {
   Dart_Handle result;
 
   CheckDartError(Dart_StringToCString(sql_handle, &sql));
-  if (sqlite3_prepare_v2(db, sql, strlen(sql), &stmt, NULL)) {
+
+  if (sqlite3_prepare_v2(db, sql, strlen(sql), &stmt, NULL) != SQLITE_OK) {
     Dart_Handle params[2];
     params[0] = Dart_NewStringFromCString(sqlite3_errmsg(db));
     params[1] = sql_handle;
     Dart_Handle syntaxExceptionClass = CheckDartError(Dart_GetClass(library, Dart_NewStringFromCString("SqliteSyntaxException")));
     Dart_ThrowException(Dart_New(syntaxExceptionClass, Dart_NewStringFromCString("_internal"), 2, params));
+    return;
   }
+
   statement_peer* peer = (statement_peer*) sqlite3_malloc(sizeof(statement_peer));
   peer->db = db;
   peer->stmt = stmt;
@@ -270,6 +273,7 @@ DART_FUNCTION(Step) {
   statement_peer* statement = get_statement(statement_handle);
   while (true) {
     int status = sqlite3_step(statement->stmt);
+
     switch (status) {
       case SQLITE_BUSY:
         fprintf(stderr, "Got sqlite_busy\n");
