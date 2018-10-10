@@ -14,13 +14,11 @@ const _RELEASES_URL =
     'https://api.github.com/repos/l7ssha/dart-sqlite/releases';
 
 Future main(List<String> args) async {
-
   final deps = loadYaml(new File('pubspec.yaml').readAsStringSync());
   final version = deps['version'];
   print('Setting up version $version');
 
-  final releasesBody =
-      await http.read(_RELEASES_URL).catchError((e, _) {
+  final releasesBody = await http.read(_RELEASES_URL).catchError((e, _) {
     print('Unable to list releases: $e');
     exit(314);
   });
@@ -36,9 +34,8 @@ Future main(List<String> args) async {
 
   final assetNames = ['libdart_sqlite.so', 'libdart_sqlite.dylib'];
   await Future.forEach(assetNames, (assetName) async {
-    final libUrl =
-        release['assets'].firstWhere((asset) => asset['name'] == assetName)[
-            'browser_download_url'];
+    final libUrl = release['assets'].firstWhere(
+        (asset) => asset['name'] == assetName)['browser_download_url'];
     final libFile = path.join('lib', 'src', assetName);
     await http.readBytes(libUrl).catchError((e, _) {
       print('Could not download library file: $e');

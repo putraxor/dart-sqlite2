@@ -73,7 +73,8 @@ class Request {
       }
       final List result = rawResult;
       if (rowMetadata == null) {
-        rowMetadata = new RowMetadata(natives.getColumnInfo(_statement).cast<String>());
+        rowMetadata =
+            new RowMetadata(natives.getColumnInfo(_statement).cast<String>());
       }
       controller.add(new RowImpl(index++, rowMetadata, result));
       return true;

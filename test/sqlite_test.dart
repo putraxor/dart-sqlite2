@@ -60,6 +60,7 @@ void main() {
           params: bindings);
       expect(inserted, equals(1));
     }
+
     await insert(['hi', 'hello world']);
     await insert(['bye', 'goodbye cruel world']);
     final rows = await db.query('SELECT * FROM posts').toList();
