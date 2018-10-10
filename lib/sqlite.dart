@@ -64,9 +64,9 @@ class Database {
         })
         .then((_) => execute('COMMIT'))
         .catchError((error, stackTrace) {
-      return execute('ROLLBACK')
-          .then((_) => new Future.error(error, stackTrace));
-    });
+          return execute('ROLLBACK')
+              .then((_) => new Future.error(error, stackTrace));
+        });
   }
 
   /// Executes the SQL query and returns the number of affected rows.
