@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:sqlite2/sqlite.dart';
 
 _runSimpleQuery(Database db) async {
-  Row row = await db
+  IRow row = await db
       .query('SELECT ?+16, UPPER(?)', params: ['2000', 'Ligue 1']).first;
   final int year = row[0];
   final String league = row[1];
@@ -36,13 +36,13 @@ _inspectResults(Database db) async {
   final subscription = db
       .query('SELECT * FROM rankings ORDER BY points DESC')
       .listen(
-          (Row row) => print('${row['team'].padRight(10)} ${row['points']}'));
+          (IRow row) => print('${row['team'].padRight(10)} ${row['points']}'));
   await subscription.asFuture();
   print('Who\'s the best now?');
 }
 
 Future main(List<String> args) async {
-  final db = new Database.inMemory();
+  final db = Database.inMemory();
   await _runSimpleQuery(db);
   await _createAndInsertEntries(db);
   await _useStatements(db);

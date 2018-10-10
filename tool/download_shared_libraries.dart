@@ -14,7 +14,7 @@ const _RELEASES_URL =
     'https://api.github.com/repos/l7ssha/dart-sqlite/releases';
 
 Future main(List<String> args) async {
-  final deps = loadYaml(new File('pubspec.yaml').readAsStringSync());
+  final deps = loadYaml(File('pubspec.yaml').readAsStringSync());
   final version = deps['version'];
   print('Setting up version $version');
 
@@ -40,7 +40,7 @@ Future main(List<String> args) async {
     await http.readBytes(libUrl).catchError((e, _) {
       print('Could not download library file: $e');
       exit(314);
-    }).then((bytes) => new File(libFile).writeAsBytesSync(bytes));
+    }).then((bytes) => File(libFile).writeAsBytesSync(bytes));
     print('Installed $assetName');
   });
   print('Library setup complete');

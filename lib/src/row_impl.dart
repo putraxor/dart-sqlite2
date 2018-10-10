@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License")
 // You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-import 'dart:mirrors';
-
 import 'exceptions.dart';
 import 'row.dart';
 
@@ -18,14 +16,14 @@ class RowMetadata {
   }
 }
 
-class RowImpl implements Row {
+class Row implements IRow {
   final RowMetadata _metadata;
   final List _data;
 
   @override
   final int index;
 
-  RowImpl(this.index, this._metadata, this._data);
+  Row(this.index, this._metadata, this._data);
 
   @override
   dynamic operator [](dynamic i) {
@@ -34,18 +32,18 @@ class RowImpl implements Row {
     } else {
       var index = _metadata.columnToIndex[i];
       if (index == null) {
-        throw new SqliteException("No such column $i");
+        throw SqliteException("No such column $i");
       }
       return _data[index];
     }
   }
 
   @override
-  List<Object> toList() => new List<Object>.from(_data);
+  List<Object> toList() => List<Object>.from(_data);
 
   @override
   Map<String, Object> toMap() {
-    var result = new Map<String, Object>();
+    var result = Map<String, Object>();
     for (int i = 0; i < _data.length; i++) {
       result[_metadata.columns[i]] = _data[i];
     }

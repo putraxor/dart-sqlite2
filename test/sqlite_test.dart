@@ -19,12 +19,12 @@ _runWithConnectionOnDisk(_DatabaseTest dbTest) async {
   final fileName = path.join(
       Directory.systemTemp.createTempSync('dart-sqlite-test-').path,
       'db.sqlite');
-  final db = new sqlite.Database(fileName);
+  final db = sqlite.Database(fileName);
   return dbTest(db).whenComplete(() => db.close());
 }
 
 _runWithConnectionInMemory(_DatabaseTest dbTest) async {
-  final db = new sqlite.Database.inMemory();
+  final db = sqlite.Database.inMemory();
   return dbTest(db).whenComplete(() => db.close());
 }
 
@@ -80,13 +80,12 @@ void main() {
 
   test('syntax error', _testRunner((db) async {
     expect(() => db.execute('random non sql'),
-        new Throws(new isInstanceOf<sqlite.SqliteSyntaxException>()));
+        throwsA(TypeMatcher<sqlite.SqliteSyntaxException>()));
   }));
 
   test('column error', _testRunner((db) async {
     final row = await db.query('select 2+2').first;
-    expect(() => row['qwerty'],
-        new Throws(new isInstanceOf<sqlite.SqliteException>()));
+    expect(() => row['qwerty'], throwsA(TypeMatcher<sqlite.SqliteException>()));
   }));
 
   test('dynamic getters', _testRunner((db) async {
@@ -98,6 +97,5 @@ void main() {
     expect(rows.length, equals(1));
     expect(rows[0]['title'], equals('hello'));
     expect(rows[0]['body'], equals('world'));
-    ;
   }));
 }

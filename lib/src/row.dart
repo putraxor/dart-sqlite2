@@ -10,7 +10,7 @@
 ///   * By name: `row.title`
 ///
 /// Column names are not guaranteed unless a SQL AS clause is used.
-abstract class Row {
+abstract class IRow {
   /// This row's offset into the result set.
   int get index;
 

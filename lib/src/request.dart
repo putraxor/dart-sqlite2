@@ -34,7 +34,7 @@ class Request {
   ///
   /// [db] must be the native handle to the database. Use [params] to specify
   /// values for placeholders in [sql].
-  Request(dynamic db, String sql, {List<String> params: const <String>[]})
+  Request(dynamic db, String sql, {List<String> params = const <String>[]})
       : this.sql = sql,
         this._params = params,
         _statement = natives.prepareStatement(db, sql);
@@ -42,7 +42,7 @@ class Request {
   /// Throws an exception if the request is not active.
   _ensureActive() {
     if (_statement == null) {
-      throw new SqliteException("Statement is closed");
+      throw SqliteException("Statement is closed");
     }
   }
 
@@ -58,8 +58,8 @@ class Request {
   }
 
   /// Issues the SQL query and streams the resulting rows.
-  Stream<Row> query() {
-    StreamController<Row> controller;
+  Stream<IRow> query() {
+    StreamController<IRow> controller;
     RowMetadata rowMetadata;
     int index = 0;
     Timer timer;
@@ -74,14 +74,14 @@ class Request {
 
       final List result = rawResult;
       if (rowMetadata == null) {
-        rowMetadata = new RowMetadata(natives.getColumnInfo(_statement));
+        rowMetadata = RowMetadata(natives.getColumnInfo(_statement));
       }
-      controller.add(new RowImpl(index++, rowMetadata, result));
+      controller.add(Row(index++, rowMetadata, result));
       return true;
     }
 
     void loop() {
-      timer = new Timer(Duration.zero, () {
+      timer = Timer(Duration.zero, () {
         if (step()) {
           loop();
         }
@@ -108,7 +108,7 @@ class Request {
     if (_params.isNotEmpty) {
       natives.bindValues(_statement, _params);
     }
-    controller = new StreamController(
+    controller = StreamController(
         onListen: start, onPause: stop, onResume: start, onCancel: finalize);
 
     return controller.stream;

@@ -59,36 +59,36 @@ class Database {
             operation();
           } catch (error, stackTrace) {
             return execute('ROLLBACK')
-                .then((_) => new Future.error(error, stackTrace));
+                .then((_) => Future.error(error, stackTrace));
           }
         })
         .then((_) => execute('COMMIT'))
         .catchError((error, stackTrace) {
           return execute('ROLLBACK')
-              .then((_) => new Future.error(error, stackTrace));
+              .then((_) => Future.error(error, stackTrace));
         });
   }
 
   /// Executes the SQL query and returns the number of affected rows.
   ///
   /// If [sql] has placeholders, use [params] to specify its values.
-  Future<int> execute(String sql, {List<String> params: const []}) {
+  Future<int> execute(String sql, {List<String> params = const []}) {
     _ensureOpen();
-    return new Request(_db, sql, params: params).execute();
+    return Request(_db, sql, params: params).execute();
   }
 
   /// Issues a SQL query and streams the resulting rows.
   ///
   /// If [sql] has placeholders, use [params] to specify its values.
-  Stream<Row> query(String sql, {List<String> params: const []}) {
+  Stream<IRow> query(String sql, {List<String> params = const []}) {
     _ensureOpen();
-    return new Request(_db, sql, params: params).query();
+    return Request(_db, sql, params: params).query();
   }
 
   /// Checks that the database is open and throws an exception if it isn't.
   void _ensureOpen() {
     if (_db == null) {
-      throw new SqliteException("Database is closed");
+      throw SqliteException("Database is closed");
     }
   }
 }
