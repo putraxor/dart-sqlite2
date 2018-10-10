@@ -257,7 +257,7 @@ DART_FUNCTION(ColumnInfo) {
 
   statement_peer* statement = get_statement(statement_handle);
   int count = sqlite3_column_count(statement->stmt);
-  Dart_Handle result = Dart_NewList(count);
+  Dart_Handle result = Dart_NewListOf(Dart_CoreType_String, count);
   for (int i = 0; i < count; i++) {
     Dart_ListSetAt(result, i, Dart_NewStringFromCString(sqlite3_column_name(statement->stmt, i)));
   }

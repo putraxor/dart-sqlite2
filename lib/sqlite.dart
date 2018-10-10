@@ -51,7 +51,7 @@ class Database {
   ///
   /// If the callbacks throws an exception, the transaction will be rolled back
   /// and the exception propagated, otherwise the transaction will be committed.
-  Future transaction(Future operation()) {
+  Future<int> transaction(Future operation()) {
     _ensureOpen();
     return execute('BEGIN')
         .then((_) => operation())
@@ -65,7 +65,7 @@ class Database {
   /// Executes the SQL query and returns the number of affected rows.
   ///
   /// If [sql] has placeholders, use [params] to specify its values.
-  Future<int> execute(String sql, {List params: const []}) {
+  Future<int> execute(String sql, {List<String> params: const []}) {
     _ensureOpen();
     return new Request(_db, sql, params: params).execute();
   }
@@ -73,13 +73,13 @@ class Database {
   /// Issues a SQL query and streams the resulting rows.
   ///
   /// If [sql] has placeholders, use [params] to specify its values.
-  Stream<Row> query(String sql, {List params: const []}) {
+  Stream<Row> query(String sql, {List<String> params: const []}) {
     _ensureOpen();
     return new Request(_db, sql, params: params).query();
   }
 
   /// Checks that the database is open and throws an exception if it isn't.
-  _ensureOpen() {
+  void _ensureOpen() {
     if (_db == null) {
       throw new SqliteException("Database is closed");
     }

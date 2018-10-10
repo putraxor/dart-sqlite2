@@ -54,16 +54,4 @@ class RowImpl implements Row {
 
   @override
   String toString() => _data.toString();
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) {
-    if (invocation.isGetter) {
-      final property = MirrorSystem.getName(invocation.memberName);
-      final index = _metadata.columnToIndex[property];
-      if (index != null) {
-        return _data[index];
-      }
-    }
-    return super.noSuchMethod(invocation);
-  }
 }

@@ -23,7 +23,7 @@ class Request {
   final String sql;
 
   /// Values to bind to the statement.
-  List _params;
+  List<String> _params;
 
   /// The number of rows affected by the request.
   ///
@@ -34,7 +34,7 @@ class Request {
   ///
   /// [db] must be the native handle to the database. Use [params] to specify
   /// values for placeholders in [sql].
-  Request(dynamic db, String sql, {List params: const []})
+  Request(dynamic db, String sql, {List<String> params: const <String>[]})
       : this.sql = sql,
         this._params = params,
         _statement = natives.prepareStatement(db, sql);
@@ -73,14 +73,14 @@ class Request {
       }
       final List result = rawResult;
       if (rowMetadata == null) {
-        rowMetadata = new RowMetadata(natives.getColumnInfo(_statement));
+        rowMetadata = new RowMetadata(natives.getColumnInfo(_statement).cast<String>());
       }
       controller.add(new RowImpl(index++, rowMetadata, result));
       return true;
     }
 
     void loop() {
-      timer = new Timer(Duration.ZERO, () {
+      timer = new Timer(Duration.zero, () {
         if (step()) {
           loop();
         }

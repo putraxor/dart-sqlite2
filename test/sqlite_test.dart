@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:sqlite/sqlite.dart' as sqlite;
+import 'package:sqlite2/sqlite.dart' as sqlite;
 import 'package:test/test.dart';
 
 _createBlogTable(db) async {
@@ -38,7 +38,7 @@ _testRunner(_DatabaseTest dbTest) {
 void main() {
   test('query with bindings', _testRunner((db) async {
     final row =
-        await db.query('SELECT ?+2, UPPER(?)', params: [3, 'hello']).first;
+        await db.query('SELECT ?+2, UPPER(?)', params: ['3', 'hello']).first;
     expect(row[0], equals(5));
     expect(row[1], equals('HELLO'));
   }));
@@ -101,7 +101,7 @@ void main() {
     expect(inserted, equals(1));
     final rows = await db.query('SELECT * FROM posts').toList();
     expect(rows.length, equals(1));
-    expect(rows[0].title, equals('hello'));
-    expect(rows[0].body, equals('world'));
+    expect(rows[0]['title'], equals('hello'));
+    expect(rows[0]['body'], equals('world'));
   }));
 }

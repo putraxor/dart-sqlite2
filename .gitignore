@@ -8,3 +8,5 @@ doc/
 out/
 packages
 pubspec.lock
+.idea
+.dart_tool/
