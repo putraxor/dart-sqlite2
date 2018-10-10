@@ -1,3 +1,8 @@
+## 0.5.0
+
+- Adapted lib to Dart 2.0
+- Removed deprecated code
+
 ## 0.4.0
 
 - Dynamic getters
