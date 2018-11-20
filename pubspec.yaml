@@ -1,7 +1,7 @@
 name: sqlite2
 version: 0.5.1
 description: Most recent, fast SQLite bindings for Dart 2.0
-homepage: https://github.com/l7ssha/dart-sqlite
+homepage: https://github.com/l7ssha/dart-sqlite2
 authors:
   - Szymon Uglis <szymon.uglis@tuta.io>
   - Sam McCall
